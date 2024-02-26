@@ -859,18 +859,19 @@ export interface ApiForumDiscussionForumDiscussion
     singularName: 'forum-discussion';
     pluralName: 'forum-discussions';
     displayName: 'Forum Discussion';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     name: Attribute.String & Attribute.Required;
-    content: Attribute.Blocks & Attribute.Required;
     forum_id: Attribute.Relation<
       'api::forum-discussion.forum-discussion',
       'manyToOne',
       'api::foro.foro'
     >;
+    content: Attribute.Text & Attribute.Required;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

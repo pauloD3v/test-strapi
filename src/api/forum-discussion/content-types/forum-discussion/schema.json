@@ -4,7 +4,8 @@
   "info": {
     "singularName": "forum-discussion",
     "pluralName": "forum-discussions",
-    "displayName": "Forum Discussion"
+    "displayName": "Forum Discussion",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,15 +16,15 @@
       "type": "string",
       "required": true
     },
-    "content": {
-      "type": "blocks",
-      "required": true
-    },
     "forum_id": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::foro.foro",
       "inversedBy": "forum_discussions"
+    },
+    "content": {
+      "type": "text",
+      "required": true
     }
   }
 }
