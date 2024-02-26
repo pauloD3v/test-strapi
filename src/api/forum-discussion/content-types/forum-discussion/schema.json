@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "forum_discussions",
+  "info": {
+    "singularName": "forum-discussion",
+    "pluralName": "forum-discussions",
+    "displayName": "Forum Discussion"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "content": {
+      "type": "blocks",
+      "required": true
+    },
+    "forum_id": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::foro.foro",
+      "inversedBy": "forum_discussions"
+    }
+  }
+}

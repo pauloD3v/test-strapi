@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "foros",
+  "info": {
+    "singularName": "foro",
+    "pluralName": "foros",
+    "displayName": "Forum",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "course_id": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "forums"
+    },
+    "forum_discussions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::forum-discussion.forum-discussion",
+      "mappedBy": "forum_id"
+    }
+  }
+}
