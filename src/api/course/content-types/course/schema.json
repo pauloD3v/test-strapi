@@ -17,11 +17,11 @@
       "required": true,
       "unique": true
     },
-    "forums": {
+    "forum_discussions": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::foro.foro",
-      "mappedBy": "course_id"
+      "target": "api::forum-discussion.forum-discussion",
+      "mappedBy": "course"
     }
   }
 }

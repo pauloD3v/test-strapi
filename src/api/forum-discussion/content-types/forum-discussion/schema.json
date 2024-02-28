@@ -16,15 +16,27 @@
       "type": "string",
       "required": true
     },
-    "forum_id": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::foro.foro",
-      "inversedBy": "forum_discussions"
-    },
     "content": {
       "type": "text",
       "required": true
+    },
+    "Foro": {
+      "type": "enumeration",
+      "enum": [
+        "Espacio del profesor",
+        "Foro de presentación",
+        "Contenido de la asignatura",
+        "Introducción de la asignatura",
+        "Formación profesional",
+        "Elementos principales del curso"
+      ],
+      "required": true
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "forum_discussions"
     }
   }
 }

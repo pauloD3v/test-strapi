@@ -362,6 +362,91 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCourseCourse extends Schema.CollectionType {
+  collectionName: 'courses';
+  info: {
+    singularName: 'course';
+    pluralName: 'courses';
+    displayName: 'Course';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    forum_discussions: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'api::forum-discussion.forum-discussion'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiForumDiscussionForumDiscussion
+  extends Schema.CollectionType {
+  collectionName: 'forum_discussions';
+  info: {
+    singularName: 'forum-discussion';
+    pluralName: 'forum-discussions';
+    displayName: 'Forum Discussion';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    content: Attribute.Text & Attribute.Required;
+    Foro: Attribute.Enumeration<
+      [
+        'Espacio del profesor',
+        'Foro de presentaci\u00F3n',
+        'Contenido de la asignatura',
+        'Introducci\u00F3n de la asignatura',
+        'Formaci\u00F3n profesional',
+        'Elementos principales del curso'
+      ]
+    > &
+      Attribute.Required;
+    course: Attribute.Relation<
+      'api::forum-discussion.forum-discussion',
+      'manyToOne',
+      'api::course.course'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::forum-discussion.forum-discussion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::forum-discussion.forum-discussion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -783,113 +868,6 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
-export interface ApiCourseCourse extends Schema.CollectionType {
-  collectionName: 'courses';
-  info: {
-    singularName: 'course';
-    pluralName: 'courses';
-    displayName: 'Course';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required & Attribute.Unique;
-    forums: Attribute.Relation<
-      'api::course.course',
-      'oneToMany',
-      'api::foro.foro'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiForoForo extends Schema.CollectionType {
-  collectionName: 'foros';
-  info: {
-    singularName: 'foro';
-    pluralName: 'foros';
-    displayName: 'Forum';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String;
-    course_id: Attribute.Relation<
-      'api::foro.foro',
-      'manyToOne',
-      'api::course.course'
-    >;
-    forum_discussions: Attribute.Relation<
-      'api::foro.foro',
-      'oneToMany',
-      'api::forum-discussion.forum-discussion'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::foro.foro', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::foro.foro', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiForumDiscussionForumDiscussion
-  extends Schema.CollectionType {
-  collectionName: 'forum_discussions';
-  info: {
-    singularName: 'forum-discussion';
-    pluralName: 'forum-discussions';
-    displayName: 'Forum Discussion';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String & Attribute.Required;
-    forum_id: Attribute.Relation<
-      'api::forum-discussion.forum-discussion',
-      'manyToOne',
-      'api::foro.foro'
-    >;
-    content: Attribute.Text & Attribute.Required;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::forum-discussion.forum-discussion',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::forum-discussion.forum-discussion',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -900,6 +878,8 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::course.course': ApiCourseCourse;
+      'api::forum-discussion.forum-discussion': ApiForumDiscussionForumDiscussion;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -908,9 +888,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
-      'api::course.course': ApiCourseCourse;
-      'api::foro.foro': ApiForoForo;
-      'api::forum-discussion.forum-discussion': ApiForumDiscussionForumDiscussion;
     }
   }
 }
